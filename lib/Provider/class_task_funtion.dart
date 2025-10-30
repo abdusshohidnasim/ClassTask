@@ -15,8 +15,10 @@ class ClassTask with ChangeNotifier {
       _isloding = true;
       notifyListeners();
       Response response = await http.get(
-        Uri.parse("https://jsonplaceholder.typicode.com/posts"),
-
+        Uri.parse("https://jsonplaceholder.typicode.com/posts"),headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
       );
 
       if(response.statusCode==200){

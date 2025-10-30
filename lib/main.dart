@@ -11,7 +11,7 @@ void main() {
 
       providers: [
        ChangeNotifierProvider(create: (context)=>ClassTask()),
-     //  ChangeNotifierProvider(create: (context)=>AddtoCard()),
+      ChangeNotifierProvider(create: (context)=>AddtoCard()),
       ],
       child: MyApp()));
 }

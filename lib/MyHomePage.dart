@@ -1,6 +1,15 @@
+
+
+
+
+
+
+
+
 import 'package:class_task/Provider/Class_task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'Add to card.dart';
 import 'Provider/addtocard.dart';
 import 'Provider/class_task_funtion.dart';
 
@@ -11,10 +20,13 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // API call safely using Future.microtask
     final future = Future.microtask(
-      () => Provider.of<ClassTask>(context, listen: false).ProdectedFuntin(),
+          () => Provider.of<ClassTask>(context, listen: false).ProdectedFuntin(),
     );
     return Scaffold(
-      appBar: AppBar(title: const Text("Provider API Demo")),
+      appBar: AppBar(title: const Text("Provider API Demo"),actions: [IconButton(onPressed: (){
+        
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>CartPage()));
+      }, icon: Icon(Icons.favorite_outline))],),
       body: FutureBuilder(
         future: future,
         builder: (context, snapshot) {
@@ -40,7 +52,8 @@ class MyHomePage extends StatelessWidget {
 
                     margin: const EdgeInsets.all(8),
                     child: SizedBox(
-                      height: 120,
+                      height: 120
+                      ,
                       child: Row(
                         children: [
                           Container(
@@ -56,9 +69,8 @@ class MyHomePage extends StatelessWidget {
                           ),
                           Expanded(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min, // ✅ Column নিজে height ঠিক করবে
                               crossAxisAlignment: CrossAxisAlignment.start,
-
                               children: [
                                 Text(
                                   "Tite: ",
@@ -68,26 +80,60 @@ class MyHomePage extends StatelessWidget {
                                   " ${post.title.toString()}",
                                   style: TextStyle(fontWeight: FontWeight.w500),
                                 ),
-                                Spacer(),
-                               Row(children: [
-                                 Text(
-                                   "Price ${post.price.toStringAsFixed(2)}",
-                                   style: TextStyle(
-                                     fontWeight: FontWeight.bold,
-                                     color: Colors.green,
-                                   ),
-                                 ),Spacer(),
-                                 // Consumer<AddtoCard>(builder: (context,addlistmode, child){
-                                 //   return ElevatedButton(onPressed: (){
-                                 //     addlistmode.setaddlist(post);
-                                 //   }, child: Text("Add to card"));
-                                 //
-                                 // })
 
-                                 ElevatedButton(onPressed: (){
+                                Row(children: [
+                                  Text(
+                                    "Price ${post.price.toStringAsFixed(2)}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10,height: 10,),
+                                  // Consumer<AddtoCard>(builder: (context,addlistmode, child){
+                                  //   return ElevatedButton(onPressed: (){
+                                  //     addlistmode.setaddlist(post,quantity: 1,);
+                                  //
+                                  //
+                                  //   }, child: Text("Add to card"));
+                                  //
+                                  // })
 
-                                 }, child: Text("Add to card "))
-                               ],)
+                                  Consumer<AddtoCard>(
+                                    builder: (context, addlistmode, child) {
+                                      return ElevatedButton(
+                                        onPressed: () {
+                                          print("list${addlistmode.addcardlist}");
+
+
+                                          addlistmode.setaddlist(post, quantity: 1);
+
+                                          // ScaffoldMessenger.of(context).showSnackBar(
+                                          //   SnackBar(
+                                          //     content: Text("${post.title} added to cart"),
+                                          //     duration: Duration(seconds: 1),
+                                          //   ),
+                                          // );
+                                        },
+                                        child: Text("Add to card"),
+                                      );
+                                    },
+                                  )
+
+
+
+
+
+
+
+
+
+                                  //
+                                  // ElevatedButton(onPressed: (){
+                                  //
+                                  //
+                                  // }, child: Text("Add to card "))
+                                ],)
 
                               ],
                             ),
@@ -108,49 +154,3 @@ class MyHomePage extends StatelessWidget {
 
 
 
-
-//
-//
-//
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-//
-// import 'Provider/class_task_funtion.dart';
-//
-// class MyHomePage extends StatelessWidget {
-//   const MyHomePage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Column(
-//         children: [
-//           Expanded(
-//             child: Consumer<ClassTask>(
-//               builder: (context, classmodel, child) {
-//                 if(classmodel.isloding){
-//                   return Center(child: CircularProgressIndicator());
-//                 }
-//                 if(classmodel.ProdectedList.isEmpty){
-//                   print("No Data Found");
-//                   return Center(child: Text("No Data Found"));
-//                 }
-//                 return ListView.builder(
-//                   itemCount: classmodel.ProdectedList.length,
-//                   itemBuilder: (context, index) {
-//                     return Container(
-//                       height: 200,
-//                       width: 300,
-//                       color: Colors.green,
-//                       child:ListTile(title: Text(" naiem ${classmodel.ProdectedList![index].title}")),
-//                     );
-//                   },
-//                 );
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
