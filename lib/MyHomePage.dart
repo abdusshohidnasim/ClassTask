@@ -69,7 +69,7 @@ class MyHomePage extends StatelessWidget {
                           ),
                           Expanded(
                             child: Column(
-                              mainAxisSize: MainAxisSize.min, // ✅ Column নিজে height ঠিক করবে
+                              mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
